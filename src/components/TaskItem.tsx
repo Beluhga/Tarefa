@@ -1,8 +1,9 @@
 import React, {useState, useRef, useEffect} from 'react';
 import { Entypo } from '@expo/vector-icons';
-
 import { TouchableOpacity, View, StyleSheet, TextInput} from 'react-native';
+
 import { Task } from './TasksList';
+import {Container, InfoContainer, IconsContainer, IconsDivider } from './screens/style';
 import { EditTaskArgs } from '../pages/Home';
 
 interface TaskItemProps {
@@ -42,8 +43,8 @@ export function TaskItem({task, editTask, removeTask, toggleTaskDone} : TaskItem
     }
   }, [isEditing])
     return(
-        <View style ={styles.container}>
-            <View style={styles.infoContainer}>
+        <Container>
+            <InfoContainer>
               
               <TouchableOpacity
                 activeOpacity={0.7}
@@ -51,7 +52,7 @@ export function TaskItem({task, editTask, removeTask, toggleTaskDone} : TaskItem
                 onPress={() => toggleTaskDone(task.id)}
               >
                 <View 
-                  style={task.done ? styles.taskMarkerDone : styles.taskMarker }// estilo q ira mudar a cor da caixa ao clicar
+                  style={task.done ? styles.taskMarkerDone  : styles.taskMarker }// estilo q ira mudar a cor da caixa ao clicar
                   > 
                 
                   { task.done && (
@@ -70,10 +71,10 @@ export function TaskItem({task, editTask, removeTask, toggleTaskDone} : TaskItem
                 
                 />
               </TouchableOpacity>
-            </View>
+            </InfoContainer>
 
         
-            <View style={styles.iconsContainer}>
+            <IconsContainer>
               { isEditing ? ( // Logica para mudar os icones de X e Edit
                 <TouchableOpacity
                     onPress={handleCancelEditing} // para aparecer o X (fecha, cancelar) quando estiver editando
@@ -88,7 +89,7 @@ export function TaskItem({task, editTask, removeTask, toggleTaskDone} : TaskItem
                   <Entypo name="edit" size={24} color="#b2b2b2" />                  
                 </TouchableOpacity>
                 ) }
-                <View style={styles.iconsDivider} /> 
+                <IconsDivider /> 
 
                 <TouchableOpacity
                     onPress={() => removeTask(task.id)} // botão para remover o a tarefa.
@@ -96,18 +97,13 @@ export function TaskItem({task, editTask, removeTask, toggleTaskDone} : TaskItem
                     >
                   <Entypo name="trash" size={24} color="#b2b2b2" style={{opacity: isEditing ? 0.2 : 1}} />                  
                 </TouchableOpacity>
-            </View>
-        </View>
+            </IconsContainer>
+        </Container>
     )
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    justifyContent: 'space-between'
-  },
+  
     taskButton: {
       flex: 1,
       paddingHorizontal: 24,
@@ -117,20 +113,29 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center'
     },
+
     taskMarker: {
-      height: 16,
-      width: 16,
-      borderRadius: 4,
-      borderWidth: 1,
-      borderColor: '#B2B2B2',
-      marginRight: 15,
-      alignItems: 'center',
-      justifyContent: 'center'
+    height: 16,
+    width: 16,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#B2B2B2',
+    marginRight: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+      
     },
     taskText: {
       color: '#666',
       fontFamily: 'Inter-Medium'
     },
+    
+    taskTextDone: {
+      color: '#1DB863',
+      textDecorationLine: 'line-through',
+      fontFamily: 'Inter-Medium'
+    },
+
     taskMarkerDone: {
       height: 16,
       width: 16,
@@ -138,27 +143,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#1DB863',
       marginRight: 15,
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+
     },
-    taskTextDone: {
-      color: '#1DB863',
-      textDecorationLine: 'line-through',
-      fontFamily: 'Inter-Medium'
-    },
-    infoContainer: {
-      flex: 1,
-    },
-    iconsContainer:{
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingLeft: 12,
-      paddingRight: 24,
-    },
-    iconsDivider:{
-      width: 1,
-      height: 24,
-      backgroundColor: 'rgba(196, 196, 196, 0.24)',
-      marginHorizontal: 12
-    }
 
   })
